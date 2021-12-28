@@ -53,17 +53,17 @@ function displayFolders() {
 function displayFiles() {
     ls -p | grep -v / | while read line; \
     do
-        echo -e "${bold}${cyan}> \e]8;;file:///$path/$line\a$( echo ${line##*/})\e]8;;\a ${reset}"
+        echo -e "${bold}${cyan}> \e]8;;file:///$currentDir/$line\a$( echo ${line##*/})\e]8;;\a ${reset}"
     done 
 }
 
 function displayInfo() {
     # Total files
-    files=$(find $path -type f | wc -l)
+    files=$(find $currentDir -type f | wc -l)
     echo "Total files: $files"
 
     # Total size
-    echo -e "${bold}${magenta}> $(du -shc $path | tail -1)${reset}"
+    echo -e "${bold}${magenta}> $(du -shc $currentDir | tail -1)${reset}"
     echo
 }
 
