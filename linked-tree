@@ -1,0 +1,70 @@
+#!/bin/bash
+
+currentDir=${PWD}
+currentFolder=${PWD##*/}
+parentDir="$(dirname "$(pwd)")"
+parentFolder=${parentdir##*/}
+
+cyan=`tput setaf 6`
+magenta=`tput setaf 2`
+yellow=`tput setaf 3`
+reset=`tput sgr0`
+bold=`tput bold`
+
+function main {
+    displayRoot
+    displayFolders
+    displayFiles
+    displayInfo
+}
+
+function displayRoot {
+    echo "folder:" $parentFolder/$currentFolder
+}
+
+function displayFolders {
+    tree $currentDir \
+    -tifd --noreport \
+    | while read line; \
+    do
+        
+        filepath=${line##*$currentFolder}
+
+        # Only display top level folders
+        if [[ "$filepath" != *"/"*"/"* ]]
+        then
+            # Set spacing based on file count
+            spaces="-"
+            files=$(ls "$line" | wc -l)
+            if [ $files -gt 99 ]
+            then
+                spaces=""
+                else if [ $files -lt 10 ]
+                then
+                    spaces="--"
+                fi
+            fi
+            echo -e "> $files"" "$spaces" ""${bold}${yellow}\e]8;;file:///$line\a$( echo ${line##*/})\e]8;;\a ${reset}";
+        fi
+
+    done
+}
+
+function displayFiles {
+    ls -p | grep -v / | while read line; \
+    do
+        echo -e "${bold}${cyan}> \e]8;;file:///$path/$line\a$( echo ${line##*/})\e]8;;\a ${reset}"
+    done 
+}
+
+function displayInfo {
+    # Total files
+    files=$(find $path -type f | wc -l)
+    echo "Total files: $files"
+
+    # Total size
+    echo -e "${bold}${magenta}> $(du -shc $path | tail -1)${reset}"
+    echo
+}
+
+main
