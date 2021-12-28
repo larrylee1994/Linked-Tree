@@ -3,7 +3,7 @@
 currentDir=${PWD}
 currentFolder=${PWD##*/}
 parentDir="$(dirname "$(pwd)")"
-parentFolder=${parentdir##*/}
+parentFolder=${parentDir##*/}
 
 cyan=`tput setaf 6`
 magenta=`tput setaf 2`
