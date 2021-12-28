@@ -11,20 +11,20 @@ yellow=`tput setaf 3`
 reset=`tput sgr0`
 bold=`tput bold`
 
-function main {
+function main() {
     displayRoot
     displayFolders
     displayFiles
     displayInfo
 }
 
-function displayRoot {
+function displayRoot() {
     echo "folder:" $parentFolder/$currentFolder
 }
 
-function displayFolders {
+function displayFolders() {
     tree $currentDir \
-    -tifd --noreport \
+    -tifda --noreport \
     | while read line; \
     do
         
@@ -50,14 +50,14 @@ function displayFolders {
     done
 }
 
-function displayFiles {
+function displayFiles() {
     ls -p | grep -v / | while read line; \
     do
         echo -e "${bold}${cyan}> \e]8;;file:///$path/$line\a$( echo ${line##*/})\e]8;;\a ${reset}"
     done 
 }
 
-function displayInfo {
+function displayInfo() {
     # Total files
     files=$(find $path -type f | wc -l)
     echo "Total files: $files"
