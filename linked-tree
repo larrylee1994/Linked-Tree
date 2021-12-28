@@ -24,7 +24,7 @@ function displayRoot() {
 
 function displayFolders() {
     tree $currentDir \
-    -tifda --noreport \
+    -tifdaL 1 --noreport \
     | while read line; \
     do
         
